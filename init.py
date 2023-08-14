@@ -1,10 +1,10 @@
-import torch
-import wandb
-import numpy as np
-import random
 import os
+import random
 import sys
 
+import numpy as np
+import torch
+import wandb
 from omegaconf import OmegaConf
 
 
@@ -25,22 +25,24 @@ def set_seed(seed=0):
 
 def open_log(cfg):
     print(cfg)
-    os.makedirs('logs/' + cfg.tag, exist_ok=True)
+    os.makedirs("logs/" + cfg.tag, exist_ok=True)
     if cfg.deploy:
-        fname = 'logs/' + cfg.tag + '/' + wandb.run.id + ".log"
+        fname = "logs/" + cfg.tag + "/" + wandb.run.id + ".log"
         fout = open(fname, "a", 1)
         sys.stdout = fout
         sys.stderr = fout
         print(cfg)
         return fout
 
+
 def init_wandb(cfg, project_name):
     if cfg.deploy:
-        print('Initializing wandb project')
+        print("Initializing wandb project")
         wandb.init(project=project_name)
         wandb.run.name = wandb.run.id
         wandb.run.save()
         wandb.config.update(OmegaConf.to_container(cfg))
+
 
 def cleanup(cfg, fp):
     if cfg.deploy:

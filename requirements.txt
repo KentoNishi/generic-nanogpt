@@ -1,5 +1,8 @@
 graphviz
+hydra-core
 networkx 
 numpy
+omegaconf
 pandas
 torch
+wandb
